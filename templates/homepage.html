@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>The Materialize Example</title>
+	      <meta name="viewport" content="width=device-width, initial-scale=1">
+	      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+  </head>
+
+  <body>
+      <div class="progress hide">
+        <div class="indeterminate"></div>
+     </div>
+      </div>
+      <div class="row center-align" style="width:560px;">
+         <div class="col s12 m12 l12" >
+               <ul class="pagination">
+                  <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                  <li class="active"><a href="#!">1</a></li>
+                  {% for n in returnObj['num_pages'] %}
+                    <li class="waves-effect"><a href="#!">{{ n }}</a></li>
+                  {% endfor %}
+                  <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+               </ul>
+         </div>
+      </div>
+      {% for news in returnObj['link_data'] %}
+      <div class="row valign-wrapper">
+        <div class="col s0 m0 l1"></div>
+        <div class="col s12 m12 l10 teal lighten-3 hoverable card-panel">
+          <div class="card-content">
+              <span class="card-title"><h4>{{ news["title"] }}</h4></span>
+              <blockquote>
+                <p>
+                  {{ news["text"] }}
+                </p>
+              </blockquote>
+          </div>
+          <div class="card-action">
+              <a href= {{ news["url"] }} ><button class="btn-flat waves-effect waves-light"><i class="material-icons">link</i></button></a>
+          </div>
+        </div>
+        <div class="col s0 m0 l1"></div>
+      </div>
+      {% endfor %}
+
+
+      <div class="row center-align" style="width:560px;">
+         <div class="col s12 m12 l12" >
+               <ul class="pagination">
+                  <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                  <li class="active"><a href="#!">1</a></li>
+                  {% for n in returnObj['num_pages'] %}
+                    <li class="waves-effect"><a href="#!">{{ n }}</a></li>
+                  {% endfor %}
+                  <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+               </ul>
+         </div>
+      </div>
+   </body>
+</html>

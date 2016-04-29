@@ -1,14 +1,22 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Apr 12 01:31:57 2016
+Created on Sun Apr 17 17:20:34 2016
 
 @author: Rohan Kulkarni
 @email : rohan.kulkarni@columbia.edu
 
 """
+
+
+from flask import Flask,render_template
 from mechanize import Browser
 from goose import Goose
 from multiprocessing import Pool,cpu_count
+import math
+
+
+app = Flask(__name__,static_url_path='/static')
+
 
 class HackerNews():
     def __init__(self,browser,goose):
@@ -37,30 +45,43 @@ class HackerNews():
 
 browser = Browser()
 goose = Goose()
-hn = HackerNews(browser,goose)  
+hn = HackerNews(browser,goose) 
 
 def extract_link(link):
     global hn
     global browser
     global goose
-    browser.follow_link(link)
-    url = browser.geturl()
-    article = goose.extract(url=url)
-    browser.back()
-    print 'Processed a URL...' 
-    return (url,article.title,article.cleaned_text[:200])
+    try:
+        browser.follow_link(link)
+        url = browser.geturl()
+        article = goose.extract(url=url)
+        browser.back()
+        return (url,article.title,article.cleaned_text[:500])
+    except:
+        return None
       
-def fetch_links():
+@app.route('/')
+def loadInitialResults():
     filter_words = ['python','Ocaml','Linux']
     filter_words = map(lambda x:x.lower(), filter_words)
+    
     hn.set_filters(filter_words)
     hn.get_links()
     hn.strip_inlinks()
     numProc = cpu_count()*2
     pool = Pool(processes=numProc)
-    result = pool.map(extract_link,hn.news_links)
-    print result 
-    
-if __name__=='__main__':
-    fetch_links()
+    initial_res = pool.map(extract_link,hn.news_links)
+    result = [x for x in initial_res if x is not None]
+    news = [{'title':x[1],'url':x[0],'text':x[2]+'...'} for x in result]
+    obj=dict()
+    obj['link_data'] = news
+    obj['num_pages'] = range(2,int(math.ceil((float(len(result))/10.0)+1)))
+    return render_template('homepage.html',returnObj=obj)
 
+@app.route('/next_page')
+def loadNewPage():
+    pass
+
+if __name__ == '__main__':
+    app.debug = True
+    app.run(host='localhost',port=8086)
