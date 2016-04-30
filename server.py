@@ -13,6 +13,7 @@ from mechanize import Browser
 from goose import Goose
 from multiprocessing import Pool,cpu_count
 import math
+import praw
 
 
 app = Flask(__name__,static_url_path='/static')
@@ -59,13 +60,18 @@ def extract_link(link):
         return (url,article.title,article.cleaned_text[:500])
     except:
         return None
-      
+        
+class AppStatus():
+    def __init__(self,page_number):
+        self.current_page=page_number
+        
 @app.route('/')
 def loadInitialResults():
+    '''
     filter_words = ['python','Ocaml','Linux']
     filter_words = map(lambda x:x.lower(), filter_words)
-    
     hn.set_filters(filter_words)
+    '''
     hn.get_links()
     hn.strip_inlinks()
     numProc = cpu_count()*2
@@ -73,15 +79,21 @@ def loadInitialResults():
     initial_res = pool.map(extract_link,hn.news_links)
     result = [x for x in initial_res if x is not None]
     news = [{'title':x[1],'url':x[0],'text':x[2]+'...'} for x in result]
-    obj=dict()
+    obj = dict()
     obj['link_data'] = news
     obj['num_pages'] = range(2,int(math.ceil((float(len(result))/10.0)+1)))
     return render_template('homepage.html',returnObj=obj)
 
-@app.route('/next_page')
-def loadNewPage():
-    pass
+@app.route('/reddit_page/')
+def loadRedditResults():
+    reddit = praw.Reddit(user_agent='rohan_news_client')
+    submissions = reddit.get_subreddit('worldnews').get_hot(limit=15)
+    news = [{'title':x.title,'url':x.url,'text':goose.extract(url=x.url).cleaned_text[:500]+'...'} for x in submissions]
+    obj = dict()
+    obj['link_data'] = news
+    obj['num_pages'] = range(2,int(math.ceil((float(len(news))/10.0)+1)))
+    return render_template('homepage.html',returnObj=obj)
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='localhost',port=8086)
+    app.run(host='localhost',port=8089)

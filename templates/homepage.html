@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>The Materialize Example</title>
+      <title>My News Feed</title>
 	      <meta name="viewport" content="width=device-width, initial-scale=1">
 	      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
@@ -10,10 +10,19 @@
   </head>
 
   <body>
-      <div class="progress hide">
-        <div class="indeterminate"></div>
-     </div>
+      <div class="navbar-fixed">
+        <nav>
+          <div class="nav-wrapper">
+            <ul class="left hide-on-med-and-down">
+              <li class="active"><a href="/">HACKER RANK</a></li>
+              <li><a href="/reddit_page/">REDDIT</a></li>
+              <li><a href="#">CRUNCH BASE</a></li>
+              <li><a href="#">ESPN</a></li>
+            </ul>
+          </div>
+        </nav>
       </div>
+      <!--
       <div class="row center-align" style="width:560px;">
          <div class="col s12 m12 l12" >
                <ul class="pagination">
@@ -26,6 +35,7 @@
                </ul>
          </div>
       </div>
+      !-->
       {% for news in returnObj['link_data'] %}
       <div class="row valign-wrapper">
         <div class="col s0 m0 l1"></div>
@@ -46,7 +56,7 @@
       </div>
       {% endfor %}
 
-
+      <!--
       <div class="row center-align" style="width:560px;">
          <div class="col s12 m12 l12" >
                <ul class="pagination">
@@ -59,5 +69,6 @@
                </ul>
          </div>
       </div>
+      !-->
    </body>
 </html>
