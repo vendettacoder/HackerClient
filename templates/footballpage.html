@@ -14,31 +14,28 @@
         <nav>
           <div class="nav-wrapper">
             <ul class="left hide-on-med-and-down">
-              <li class="active"><a href="/">Hacker News</a></li>
+              <li><a href="/">Hacker News</a></li>
               <li><a href="/reddit_page/">Reddit</a></li>
               <li><a href="/live_cricket/">ESPNCricinfo</a></li>
-              <li><a href="/live_football/">Football</a></li>
+              <li class="active"><a href="/live_football/">Football</a></li>
             </ul>
           </div>
         </nav>
       </div>
 
-      {% for news in returnObj['link_data'] %}
+      {% for match_group in returnObj['match_data'] %}
       <div class="row valign-wrapper">
         <div class="col s0 m0 l1"></div>
-        <div class="col s12 m12 l10 teal lighten-3 hoverable card-panel">
-          <div class="card-content">
-              <span class="card-title"><h4>{{ news["title"] }}</h4></span>
-              <blockquote>
-                <p>
-                  {{ news["text"] }}
-                </p>
-              </blockquote>
-          </div>
-          <div class="card-action">
-              <a href= {{ news["url"] }} ><button class="btn-flat waves-effect waves-light"><i class="material-icons">link</i></button></a>
-          </div>
-        </div>
+          {% for match in match_group %}
+              <div class="col s0 m0 l1"></div>
+              <div class="col s12 m12 l8 card teal hoverable small">
+                <div class="valign-wrapper">
+                <span class="center-align white-text flow-text">
+                  {{ match|safe }}
+                </span>
+              </div>
+              </div>
+          {% endfor %}
         <div class="col s0 m0 l1"></div>
       </div>
       {% endfor %}
