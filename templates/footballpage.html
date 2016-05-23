@@ -23,22 +23,23 @@
         </nav>
       </div>
 
-      {% for match_group in returnObj['match_data'] %}
-      <div class="row valign-wrapper">
-        <div class="col s0 m0 l1"></div>
-          {% for match in match_group %}
-              <div class="col s0 m0 l1"></div>
-              <div class="col s12 m12 l8 card teal hoverable small">
-                <div class="valign-wrapper">
-                <span class="center-align white-text flow-text">
-                  {{ match|safe }}
-                </span>
-              </div>
-              </div>
-          {% endfor %}
-        <div class="col s0 m0 l1"></div>
+      <div class="container">
+        <table class="centered striped responsive-table">
+          <thead>
+            <tr>
+                <th data-field="id">Match</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for match in returnObj.match_data %}
+            <tr>
+              <td>{{ match|safe }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-      {% endfor %}
 
    </body>
 </html>

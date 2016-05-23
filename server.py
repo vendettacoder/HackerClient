@@ -107,23 +107,21 @@ def loadCricketResults():
     match_list = list()
     for match in s.all_matches:
         match_list.append(match)
-    grouped_list = [match_list[i:i+4] for i in range(0, len(match_list), 4)]
-    obj['match_data'] = grouped_list
+    obj['match_data'] = match_list#grouped_list
     return render_template('cricketpage.html',returnObj = obj)
 
 @app.route('/live_football/') 
 def loadFootballResults():
     football_page = urlopen("http://www.livescores.com").read()
     football_soup=BeautifulSoup(football_page,'lxml')
-    teams = set(map(lambda x:x.lower(),["Arsenal","Chelsea","Liverpool","Manchester City","Manchester United","Tottenham","Napoli","Juventus","Inter","AC Milan","Barcelona","Athletico Madrid","Real Madrid","Bayern Munich","Borussia Dortmund","Bayer Leverkusen","Monaco","Paris Saint Germain","Marseille","Spain","Germany","Argentina","Colombia","Belgium","Uruguay","Switzerland","Netherlands","Italy","England","Brazil","Chile","United States","Portugal","Greece","Bosnia and Herzegovina","Ivory Coast","Croatia","Russia","Ukraine","Cote d'Ivoire"]))
+    #teams = set(map(lambda x:x.lower(),["Arsenal","Chelsea","Liverpool","Manchester City","Manchester United","Tottenham","Napoli","Juventus","Inter","AC Milan","Barcelona","Athletico Madrid","Real Madrid","Bayern Munich","Borussia Dortmund","Bayer Leverkusen","Monaco","Paris Saint Germain","Marseille","Spain","Germany","Argentina","Colombia","Belgium","Uruguay","Switzerland","Netherlands","Italy","England","Brazil","Chile","United States","Portugal","Greece","Bosnia and Herzegovina","Ivory Coast","Croatia","Russia","Ukraine","Cote d'Ivoire"]))
     match_list = list()
     obj = dict()
     for data in football_soup.findAll('div',class_="row-gray"):
         data_string = data.text.strip()
-        if any(team.lower() in data_string.lower() for team in teams):
-            match_list.append(data_string)
-    grouped_list = [match_list[i:i+4] for i in range(0, len(match_list), 4)]
-    obj['match_data'] = grouped_list
+        #if any(team.lower() in data_string.lower() for team in teams):
+        match_list.append(data_string)
+    obj['match_data'] = match_list
     return render_template('footballpage.html',returnObj = obj)
     
 

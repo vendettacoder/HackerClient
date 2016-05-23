@@ -23,23 +23,26 @@
         </nav>
       </div>
 
-      {% for match_group in returnObj['match_data'] %}
-      <div class="row valign-wrapper">
-        <div class="col s0 m0 l1"></div>
-          {% for match in match_group %}
-              <div class="col s0 m0 l1"></div>
-              <div class="col s12 m12 l8 card teal hoverable small">
-                <div class="valign-wrapper">
-                <span class="center-align white-text flow-text">
-                  {{ match['team1_name']|safe }} : {{ match['team1_score']|safe }}
-                  {{ match['team2_name']|safe }} : {{ match['team2_score']|safe }}
-                </span>
-              </div>
-              </div>
-          {% endfor %}
-        <div class="col s0 m0 l1"></div>
-      </div>
-      {% endfor %}
+      <div class="container">
+        <table class="centered striped responsive-table">
+          <thead>
+            <tr>
+                <th data-field="id">Team 1 v/s Team 2</th>
+                <th data-field="team1_score">Team-1 Scores</th>
+                <th data-field="team2_score">Team-2 Scores</th>
+            </tr>
+          </thead>
 
+          <tbody>
+            {% for match in returnObj.match_data %}
+            <tr>
+              <td>{{ match['team1_name']|safe }} v/s {{ match['team2_name']|safe }}</td>
+              <td>{{ match['team1_score']|safe }}</td>
+              <td>{{ match['team2_score']|safe }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
    </body>
 </html>
