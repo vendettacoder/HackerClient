@@ -2,8 +2,8 @@
 
 Application aggregating my daily dose of tech news. Aggregates Hacker News front page, Reddit world news, Latest Cricket match scores and Latest football scores for the teams specified.
 
-Front End : ** HTML, CSS, materialize **         
-Backend : ** Python, Flask web development microframework **       
+Front End : **HTML, CSS, materialize**         
+Backend : **Python, Flask web development microframework**       
 
 ### Features    
 #### Hacker News front page        
